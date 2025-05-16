@@ -16,3 +16,17 @@ kubectl apply -f 00-multus-daemonset.yaml
 kubectl apply -f 01-bridge-setup-daemonset.yaml
 kubectl apply -f 02-net-attach-defs.yaml
 kubectl apply -f 03-demo-pod.yaml
+
+## Validation
+
+```bash
+kubectl exec -it l2-demo-pod -- sh
+ip addr
+
+- You should see net1 with 10.10.0.10/24 and net2 with 10.20.0.10/24.
+
+## Notes
+
+- Assumes containerd (default for K3s)
+- Assumes /opt/cni/bin exists on host
+- Adjust IPAM settings as needed
