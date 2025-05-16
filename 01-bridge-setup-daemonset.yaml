@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: bridge-setup
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: bridge-setup
+  template:
+    metadata:
+      labels:
+        name: bridge-setup
+    spec:
+      hostNetwork: true
+      containers:
+      - name: setup
+        image: busybox
+        command:
+          - /bin/sh
+          - -c
+          - |
+            ip link add br0 type bridge || true
+            ip link set br0 up
+            ip link add br1 type bridge || true
+            ip link set br1 up
+            sleep infinity
+        securityContext:
+          privileged: true
+      restartPolicy: Always
