@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: l2-demo-pod
+  annotations:
+    k8s.v1.cni.cncf.io/networks: |
+      [
+        { "name": "l2-net1", "interface": "net1" },
+        { "name": "l2-net2", "interface": "net2" }
+      ]
+spec:
+  containers:
+  - name: test
+    image: busybox
+    command: ["sleep", "3600"]
+    securityContext:
+      privileged: true
